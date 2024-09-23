@@ -1,5 +1,4 @@
-// @ts-nocheck
-// @ts-ignore
+
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -10,7 +9,7 @@ import {
   CardFooter,
   CardHeader,
 } from "@/components/ui/card";
-import { PlusCircle, DollarSign, PieChart, Clock } from "lucide-react";
+import {  DollarSign, PieChart, Clock } from "lucide-react";
 
 interface Transaction {
   id: number;

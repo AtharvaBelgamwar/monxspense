@@ -1,5 +1,3 @@
-// @ts-nocheck
-// @ts-ignore
 "use client";
 
 import { useState } from "react";
@@ -9,7 +7,6 @@ export function SetBalanceComponent() {
   const [balance, setBalance] = useState("");
   const [error, setError] = useState(""); // To handle error message
   const [loading, setLoading] = useState(false); // To handle loading state
-  const [success, setSuccess] = useState(false); // To show success message
 
   const handleSubmit = async () => {
     if (!balance || isNaN(Number(balance))) {
@@ -55,7 +52,7 @@ export function SetBalanceComponent() {
         </h2>
 
         {error && <p className="text-red-500 mb-4">{error}</p>}
-        {success && (
+        {false && (
           <p className="text-green-500 mb-4">Balance saved successfully!</p>
         )}
 

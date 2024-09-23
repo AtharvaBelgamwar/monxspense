@@ -1,5 +1,3 @@
-// @ts-nocheck
-// @ts-ignore
 "use client";
 
 import React, { useState, useEffect } from "react";
@@ -14,7 +12,7 @@ import {
   ArcElement,
   ChartOptions,
 } from "chart.js";
-import { Bar, Pie } from "react-chartjs-2";
+import {  Pie } from "react-chartjs-2";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { format } from "date-fns"; // For formatting dates
 

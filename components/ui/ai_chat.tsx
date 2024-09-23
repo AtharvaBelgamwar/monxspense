@@ -1,5 +1,3 @@
-// @ts-nocheck
-// @ts-ignore
 
 "use client";
 
@@ -21,7 +19,7 @@ export default function AIChat() {
   const [isTypingComplete, setIsTypingComplete] = useState(false);
   const [isLoading, setIsLoading] = useState(false); // Track if AI is responding
   const fullText = "Get the Best AI Suggestions";
-  const [isTyping, setIsTyping] = useState(false);
+  // const [isTyping, setIsTyping] = useState(false);
 
   // Typing effect logic
   useEffect(() => {
