@@ -38,7 +38,7 @@ export function ExpenseTrackerMainPage() {
 
   useEffect(() => {
     // Fetch user data when the component mounts
-    fetch("http://localhost:5000/auth/user", {
+    fetch("https://venv-azes.onrender.com/auth/user", {
       method: "GET",
       credentials: "include",
     })
@@ -87,7 +87,7 @@ export function ExpenseTrackerMainPage() {
     }
 
     // Call backend to update the balance
-    await fetch("http://localhost:5000/auth/add_balance", {
+    await fetch("https://venv-azes.onrender.com/auth/add_balance", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -114,7 +114,7 @@ export function ExpenseTrackerMainPage() {
     setRecentTransactions([...recentTransactions, newTransaction]);
 
     // Optionally send the transaction to the backend as well
-    await fetch("http://localhost:5000/auth/add_transaction", {
+    await fetch("https://venv-azes.onrender.com/auth/add_transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -155,7 +155,7 @@ export function ExpenseTrackerMainPage() {
     setBalance((prevBalance) => prevBalance + transactionAmount);
 
     // Send the new transaction to the backend
-    fetch("http://localhost:5000/auth/add_transaction", {
+    fetch("https://venv-azes.onrender.com/auth/add_transaction", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -188,7 +188,7 @@ export function ExpenseTrackerMainPage() {
           {/* Logout Button */}
           <Button
             onClick={() =>
-              (window.location.href = "http://localhost:5000/auth/logout")
+              (window.location.href = "https://venv-azes.onrender.com/auth/logout")
             }
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
           >

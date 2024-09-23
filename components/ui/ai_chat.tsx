@@ -60,7 +60,7 @@ export default function AIChat() {
       try {
         // Send the message to your backend (Flask), which will forward it to Gemini
         const response = await fetch(
-          "http://localhost:5000/auth/send_to_gemini",
+          "https://venv-azes.onrender.com/auth/send_to_gemini",
           {
             method: "POST",
             headers: {
@@ -116,7 +116,7 @@ export default function AIChat() {
 
   const handleResetConversation = async () => {
     try {
-      await fetch("http://localhost:5000/auth/reset_conversation", {
+      await fetch("https://venv-azes.onrender.com/auth/reset_conversation", {
         method: "POST",
         credentials: "include",
       });

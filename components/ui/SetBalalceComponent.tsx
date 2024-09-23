@@ -19,7 +19,7 @@ export function SetBalanceComponent() {
 
     try {
       // Send the balance to the backend to be saved
-      const response = await fetch("http://localhost:5000/auth/set_balance", {
+      const response = await fetch("https://venv-azes.onrender.com/auth/set_balance", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

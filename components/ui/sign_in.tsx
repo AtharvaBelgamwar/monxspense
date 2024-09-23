@@ -12,7 +12,7 @@ export function SignInComponent() {
   // Function to handle Google Sign-In
   const handleGoogleSignIn = () => {
     // Redirect to Flask backend for Google OAuth login
-    window.location.href = "http://localhost:5000/auth/login"; // Flask's /login route for Google OAuth
+    window.location.href = "https://venv-azes.onrender.com/auth/login"; // Flask's /login route for Google OAuth
   };
 
   return (

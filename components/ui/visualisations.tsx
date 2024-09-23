@@ -41,7 +41,7 @@ export function Visualizations() {
 
   useEffect(() => {
     // Fetch transactions from the backend
-    fetch("http://localhost:5000/auth/user", {
+    fetch("https://venv-azes.onrender.com/auth/user", {
       method: "GET",
       credentials: "include",
     })
