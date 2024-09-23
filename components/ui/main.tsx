@@ -461,7 +461,7 @@ export function ExpenseTrackerMainPage() {
                   <Button
                     className="rounded-full w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transition-all duration-300 ease-in-out group-hover:w-48 flex items-center justify-center overflow-hidden"
                     onClick={() =>
-                      (window.location.href = "http://localhost:3000/ai_chat")
+                      (window.location.href = "https://monxspense.vercel.app/ai_chat")
                     }
                   >
                     {/* Initially shown small "AI" */}
@@ -483,7 +483,7 @@ export function ExpenseTrackerMainPage() {
                     className="rounded-full w-16 h-16 bg-gradient-to-r from-green-500 to-yellow-500 text-white shadow-lg transition-all duration-300 ease-in-out group-hover:w-48 flex items-center justify-center overflow-hidden"
                     onClick={() =>
                       (window.location.href =
-                        "http://localhost:3000/visualisations")
+                        "https://monxspense.vercel.app/visualisations")
                     }
                   >
                     {/* Initially shown small "Pie" */}
