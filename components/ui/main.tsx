@@ -3,13 +3,8 @@
 
 import React, { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-} from "@/components/ui/card";
-import {  DollarSign, PieChart, Clock } from "lucide-react";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { DollarSign, PieChart, Clock } from "lucide-react";
 
 interface Transaction {
   id: number;
@@ -17,7 +12,7 @@ interface Transaction {
   amount: number;
   date: string;
   recurring?: boolean;
-  type?: "credit" | "debit"; // Add type for transaction (credit or debit)
+  type?: "credit" | "debit"; 
 }
 
 export function ExpenseTrackerMainPage() {
@@ -25,36 +20,40 @@ export function ExpenseTrackerMainPage() {
   const [amount, setAmount] = useState<string>(""); // Store amount as string for input handling
   const [date, setDate] = useState<string>(""); // Store date as string
   const [isRecurring, setIsRecurring] = useState<boolean>(false);
-  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>(
-    [],
-  ); // Array of transactions
+  const [recentTransactions, setRecentTransactions] = useState<Transaction[]>([]);
   const [balance, setBalance] = useState<number>(0); // Add balance state
   const [needsBalance, setNeedsBalance] = useState<boolean>(false); // Track if user needs to set balance
   const [newBalance, setNewBalance] = useState<string>(""); // For input of new balance as a string
   const [addBalance, setAddBalance] = useState<string>("");
-  const [transactionType, setTransactionType] = useState<"credit" | "debit">(
-    "credit",
-  ); // Add state for credit/debit selection
+  const [transactionType, setTransactionType] = useState<"credit" | "debit">("credit"); // Add state for credit/debit selection
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const frontendUrl = process.env.NEXT_PUBLIC_FRONTEND_URL;
+
 
   useEffect(() => {
-    // Fetch user data when the component mounts
-    fetch("https://venv-azes.onrender.com/auth/user", {
+    if (!backendUrl) {
+      console.error("Backend URL is not defined in environment variables");
+      return;
+    }
+
+   
+    fetch(`${backendUrl}/auth/user`, {
       method: "GET",
       credentials: "include",
     })
       .then((res) => res.json())
       .then((data) => {
         if (data.needs_balance) {
-          setNeedsBalance(true); // Show prompt to set balance
+          setNeedsBalance(true); 
         } else {
-          setBalance(data.user.total_balance || 0); // Set total balance
+          setBalance(data.user.total_balance || 0); 
         }
-        setRecentTransactions(data.user.transactions || []); // Fetch user transactions
+        setRecentTransactions(data.user.transactions || []); 
       })
       .catch((err) => console.error("Error fetching user data", err));
-  }, []);
+  }, [backendUrl]);
 
-  // Handle setting the total balance
+  
   const handleSetBalance = () => {
     const parsedBalance = parseFloat(newBalance);
     if (isNaN(parsedBalance)) {
@@ -62,7 +61,7 @@ export function ExpenseTrackerMainPage() {
       return;
     }
 
-    fetch("/auth/set_balance", {
+    fetch(`${backendUrl}/auth/set_balance`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -72,8 +71,8 @@ export function ExpenseTrackerMainPage() {
       .then((res) => res.json())
       .then((data) => {
         if (data.message === "Total balance set successfully") {
-          setBalance(parsedBalance); // Update balance on frontend
-          setNeedsBalance(false); // Hide the prompt
+          setBalance(parsedBalance); 
+          setNeedsBalance(false); 
         }
       })
       .catch((err) => console.error("Error setting total balance", err));
@@ -86,35 +85,35 @@ export function ExpenseTrackerMainPage() {
       return;
     }
 
-    // Call backend to update the balance
-    await fetch("https://venv-azes.onrender.com/auth/add_balance", {
+   
+    await fetch(`${backendUrl}/auth/add_balance`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      credentials: "include", // Include credentials for the request
+      credentials: "include", 
       body: JSON.stringify({ additional_balance: additionalBalance }),
     });
 
-    // Update the balance on the frontend
+    
     setBalance((prevBalance) => prevBalance + additionalBalance);
-    setAddBalance(""); // Clear the input field after updating
+    setAddBalance(""); 
 
-    // Also add a transaction for the additional balance
+    
     const newTransaction: Transaction = {
       id: recentTransactions.length + 1,
       description: "Added to Balance",
       amount: additionalBalance,
-      date: new Date().toISOString().split("T")[0], // current date
+      date: new Date().toISOString().split("T")[0], 
       recurring: false,
-      type: "credit", // Mark this as a credit transaction
+      type: "credit", 
     };
 
-    // Add the transaction to the recent transactions
+    
     setRecentTransactions([...recentTransactions, newTransaction]);
 
-    // Optionally send the transaction to the backend as well
-    await fetch("https://venv-azes.onrender.com/auth/add_transaction", {
+    
+    await fetch(`${backendUrl}/auth/add_transaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -135,9 +134,8 @@ export function ExpenseTrackerMainPage() {
       return;
     }
 
-    // Determine whether to subtract or add to balance based on transaction type
-    const transactionAmount =
-      transactionType === "debit" ? -parsedAmount : parsedAmount;
+    
+    const transactionAmount = transactionType === "debit" ? -parsedAmount : parsedAmount;
 
     const newTransaction: Transaction = {
       id: recentTransactions.length + 1,
@@ -145,17 +143,17 @@ export function ExpenseTrackerMainPage() {
       amount: transactionAmount,
       date: date,
       recurring: isRecurring,
-      type: transactionType, // Add transaction type (credit/debit)
+      type: transactionType, 
     };
 
-    // Update recent transactions locally
+    
     setRecentTransactions([...recentTransactions, newTransaction]);
 
-    // Adjust the balance based on whether the amount is credit or debit
+    
     setBalance((prevBalance) => prevBalance + transactionAmount);
 
-    // Send the new transaction to the backend
-    fetch("https://venv-azes.onrender.com/auth/add_transaction", {
+    
+    fetch(`${backendUrl}/auth/add_transaction`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -169,7 +167,7 @@ export function ExpenseTrackerMainPage() {
       })
       .catch((err) => console.error("Error adding transaction", err));
 
-    // Reset form
+    
     setCategory("");
     setAmount("");
     setDate("");
@@ -188,7 +186,7 @@ export function ExpenseTrackerMainPage() {
           {/* Logout Button */}
           <Button
             onClick={() =>
-              (window.location.href = "https://venv-azes.onrender.com/auth/logout")
+              (window.location.href = `${backendUrl}/auth/logout`)
             }
             className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-md"
           >
@@ -461,7 +459,7 @@ export function ExpenseTrackerMainPage() {
                   <Button
                     className="rounded-full w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 text-white shadow-lg transition-all duration-300 ease-in-out group-hover:w-48 flex items-center justify-center overflow-hidden"
                     onClick={() =>
-                      (window.location.href = "https://monxspense.vercel.app/ai_chat")
+                      (window.location.href =  `${frontendUrl}/ai_chat`)
                     }
                   >
                     {/* Initially shown small "AI" */}
@@ -482,8 +480,7 @@ export function ExpenseTrackerMainPage() {
                   <Button
                     className="rounded-full w-16 h-16 bg-gradient-to-r from-green-500 to-yellow-500 text-white shadow-lg transition-all duration-300 ease-in-out group-hover:w-48 flex items-center justify-center overflow-hidden"
                     onClick={() =>
-                      (window.location.href =
-                        "https://monxspense.vercel.app/visualisations")
+                      (window.location.href =`${frontendUrl}/visualisations`)
                     }
                   >
                     {/* Initially shown small "Pie" */}

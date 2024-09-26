@@ -9,10 +9,19 @@ import {
 } from "@/components/ui/card";
 
 export function SignInComponent() {
-  // Function to handle Google Sign-In
+  
   const handleGoogleSignIn = () => {
-    // Redirect to Flask backend for Google OAuth login
-    window.location.href = "https://venv-azes.onrender.com/auth/login"; // Flask's /login route for Google OAuth
+    
+    const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+    if (!backendUrl) {
+      console.error("Backend URL is not defined in environment variables");
+      return;
+    }
+
+    const loginUrl = `${backendUrl}/auth/login`;
+    console.log("Redirecting to:", loginUrl);
+    window.location.href = loginUrl;
   };
 
   return (
@@ -30,7 +39,7 @@ export function SignInComponent() {
         <CardContent className="space-y-4">
           <Button
             className="w-full bg-white hover:bg-gray-100 text-gray-900 font-semibold py-2 px-4 border border-gray-300 rounded-lg shadow-sm transition-all duration-300 ease-in-out transform hover:scale-105 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-            onClick={handleGoogleSignIn} // Redirect to Flask for Google OAuth
+            onClick={handleGoogleSignIn}
           >
             <svg
               className="w-5 h-5 mr-2"

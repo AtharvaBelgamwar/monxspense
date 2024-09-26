@@ -37,11 +37,12 @@ interface Transaction {
 
 export function Visualizations() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
-  const [selectedMonth, setSelectedMonth] = useState<string>(""); // To store selected month
+  const [selectedMonth, setSelectedMonth] = useState<string>(""); 
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   useEffect(() => {
-    // Fetch transactions from the backend
-    fetch("https://venv-azes.onrender.com/auth/user", {
+   
+    fetch(`${backendUrl}/auth/user`, {
       method: "GET",
       credentials: "include",
     })
@@ -52,7 +53,7 @@ export function Visualizations() {
       .catch((err) => console.error("Error fetching transactions", err));
   }, []);
 
-  // Get unique months from transactions
+  
   const uniqueMonths = Array.from(
     new Set(
       transactions.map((transaction) =>
@@ -61,7 +62,7 @@ export function Visualizations() {
     ),
   );
 
-  // Filter transactions based on the selected month
+  
   const filteredTransactions = selectedMonth
     ? transactions.filter(
         (transaction) =>
@@ -69,7 +70,7 @@ export function Visualizations() {
       )
     : transactions;
 
-  // Data aggregation for Pie Chart (spending by category for the selected month)
+  
   const categorySpending: { [key: string]: number } = {};
 
   filteredTransactions.forEach((transaction) => {
@@ -127,7 +128,7 @@ export function Visualizations() {
         <div className="mb-4">
           <label className="text-white text-lg">Select Month:</label>
           <select
-            className="ml-4 p-2 rounded-md text-purple-600" // Text color set to purple
+            className="ml-4 p-2 rounded-md text-purple-600" 
             value={selectedMonth}
             onChange={handleMonthChange}
           >
